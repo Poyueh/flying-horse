@@ -50,7 +50,8 @@ npm -v   # >= 9
 ```bash
 cd backend
 npm install
-npm run db:seed
+npx prisma generate
+npx prisma db push
 npm run dev
 ```
 

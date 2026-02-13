@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Player {
+  id        String       @id @default(uuid())
+  username  String       @unique
+  password  String
+  nickname  String       @default("")
+  balance   Float        @default(5000)
+  role      String       @default("player") // "player" | "admin"
+  status    String       @default("active") // "active" | "suspended"
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  records   GameRecord[]
+}
+
+model GameRecord {
+  id         String   @id @default(uuid())
+  roundId    String
+  playerId   String
+  player     Player   @relation(fields: [playerId], references: [id])
+  betAmount  Float
+  multiplier Float
+  winAmount  Float
+  balAfter   Float
+  gamePhase  String   // "launch" | "shoot"
+  result     String   // "win" | "lose" | "jackpot" | "small_win" | "miss" | "bad_explode"
+  createdAt  DateTime @default(now())
+
+  @@index([playerId])
+  @@index([createdAt])
+}
+
+model GameConfig {
+  id        String   @id @default("main")
+  betList   String   // JSON array of bet amounts
+  rtp       Float    @default(0.96)
+  updatedAt DateTime @updatedAt
+}
