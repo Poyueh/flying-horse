@@ -1,0 +1,5 @@
+.vscode/        # Visual Studio Code 設定檔
+.idea/          # IntelliJ IDEA 設定檔
+node_modules/   # Node.js 的依賴模組
+build/          # 編譯或建置的結果目錄
+dist/           # 發布版程式碼的目錄
